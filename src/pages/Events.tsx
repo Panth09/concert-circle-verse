@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Heart, MessageCircle, Share2, Calendar, MapPin, Users, Send, MoreHorizontal } from "lucide-react";
+import { Heart, MessageCircle, Share2, Calendar, MapPin, Users, Send, MoreHorizontal, PartyPopper, Music, Plus, Clock, Search } from "lucide-react";
 import Navigation from "@/components/Navigation";
 
 const feedPosts = [
@@ -87,9 +87,32 @@ const upcomingEvents = [
   }
 ];
 
+const myPlans = [
+  {
+    id: 1,
+    title: "My Epic Rave Night",
+    date: "Dec 25, 2024",
+    time: "10:00 PM",
+    location: "Warehouse District",
+    status: "Planning",
+    friends: 12,
+    image: "/src/assets/concert-hero-1.jpg"
+  },
+  {
+    id: 2,
+    title: "Festival Squad Weekend",
+    date: "Jan 5, 2025",
+    time: "8:00 PM",
+    location: "Central Park",
+    status: "Confirmed",
+    friends: 8,
+    image: "/src/assets/concert-hero-2.jpg"
+  }
+];
+
 const Events = () => {
   const [newPost, setNewPost] = useState("");
-  const [activeTab, setActiveTab] = useState("feed");
+  const [activeTab, setActiveTab] = useState("plan-rave");
 
   return (
     <div className="min-h-screen bg-background">
@@ -99,10 +122,10 @@ const Events = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2 bg-gradient-primary bg-clip-text text-transparent">
-            Events & Community
+            Events
           </h1>
           <p className="text-muted-foreground text-lg">
-            Connect with fellow music lovers and discover amazing events
+            Plan your raves and discover amazing concerts
           </p>
         </div>
 
@@ -111,125 +134,125 @@ const Events = () => {
           <div className="lg:col-span-2">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-2 bg-secondary mb-6">
-                <TabsTrigger value="feed" className="data-[state=active]:bg-gradient-primary">
-                  Community Feed
+                <TabsTrigger value="plan-rave" className="data-[state=active]:bg-gradient-primary flex items-center gap-2">
+                  <PartyPopper className="w-4 h-4" />
+                  Plan My Rave
                 </TabsTrigger>
-                <TabsTrigger value="events" className="data-[state=active]:bg-gradient-primary">
-                  Events
+                <TabsTrigger value="concerts" className="data-[state=active]:bg-gradient-primary flex items-center gap-2">
+                  <Music className="w-4 h-4" />
+                  Concerts
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="feed" className="space-y-6">
-                {/* Create Post */}
-                <Card className="bg-card border-concert-border shadow-card">
-                  <CardContent className="pt-6">
-                    <div className="flex items-start space-x-3">
-                      <Avatar>
-                        <AvatarImage src="/api/placeholder/40/40" />
-                        <AvatarFallback>You</AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1 space-y-3">
-                        <Input
-                          placeholder="Share your musical thoughts..."
-                          value={newPost}
-                          onChange={(e) => setNewPost(e.target.value)}
-                          className="bg-secondary border-concert-border"
-                        />
-                        <div className="flex justify-end">
-                          <Button className="bg-gradient-primary hover:opacity-90">
-                            <Send className="w-4 h-4 mr-2" />
-                            Post
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+              <TabsContent value="plan-rave" className="space-y-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold">My Rave Plans</h2>
+                  <Button className="bg-gradient-primary text-white">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Create New Plan
+                  </Button>
+                </div>
 
-                {/* Feed Posts */}
-                {feedPosts.map((post) => (
-                  <Card key={post.id} className="bg-card border-concert-border shadow-card">
-                    <CardHeader>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-3">
-                          <Avatar>
-                            <AvatarImage src={post.user.avatar} />
-                            <AvatarFallback>{post.user.name[0]}</AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <div className="flex items-center space-x-2">
-                              <p className="font-semibold">{post.user.name}</p>
-                              {post.user.verified && (
-                                <Badge className="bg-blue-500 text-xs">Verified</Badge>
-                              )}
-                            </div>
-                            <p className="text-sm text-muted-foreground">{post.time}</p>
+                <div className="grid gap-6 md:grid-cols-2">
+                  {myPlans.map((plan) => (
+                    <Card key={plan.id} className="bg-card border-concert-border hover:shadow-lg transition-shadow">
+                      <div className="aspect-video relative">
+                        <img 
+                          src={plan.image} 
+                          alt={plan.title}
+                          className="w-full h-full object-cover rounded-t-lg"
+                        />
+                        <Badge className={`absolute top-2 right-2 ${
+                          plan.status === 'Confirmed' ? 'bg-green-500' : 'bg-yellow-500'
+                        } text-white`}>
+                          {plan.status}
+                        </Badge>
+                      </div>
+                      
+                      <CardHeader className="pb-3">
+                        <CardTitle className="text-lg font-bold text-foreground">
+                          {plan.title}
+                        </CardTitle>
+                        <CardDescription className="text-sm">
+                          {plan.friends} friends interested
+                        </CardDescription>
+                      </CardHeader>
+                      
+                      <CardContent className="pt-0">
+                        <div className="space-y-2 text-sm text-muted-foreground mb-4">
+                          <div className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4" />
+                            <span>{plan.date}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Clock className="w-4 h-4" />
+                            <span>{plan.time}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <MapPin className="w-4 h-4" />
+                            <span>{plan.location}</span>
                           </div>
                         </div>
-                        <Button size="icon" variant="ghost">
-                          <MoreHorizontal className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </CardHeader>
-                    
-                    <CardContent className="space-y-4">
-                      <p className="text-foreground">{post.content}</p>
-                      
-                      {post.image && (
-                        <img
-                          src={post.image}
-                          alt="Post"
-                          className="w-full rounded-lg object-cover max-h-80"
-                        />
-                      )}
-                      
-                      {post.event && (
-                        <Card className="bg-secondary border-concert-border">
-                          <CardContent className="p-4">
-                            <div className="flex items-center space-x-3">
-                              <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center">
-                                <Calendar className="w-6 h-6 text-white" />
-                              </div>
-                              <div>
-                                <p className="font-semibold">{post.event.name}</p>
-                                <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                                  <span className="flex items-center">
-                                    <Calendar className="w-3 h-3 mr-1" />
-                                    {post.event.date}
-                                  </span>
-                                  <span className="flex items-center">
-                                    <MapPin className="w-3 h-3 mr-1" />
-                                    {post.event.venue}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      )}
-                      
-                      <div className="flex items-center justify-between pt-2 border-t border-concert-border">
-                        <div className="flex items-center space-x-6">
-                          <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-red-500">
-                            <Heart className="w-4 h-4 mr-2" />
-                            {post.likes}
+                        
+                        <div className="flex gap-2">
+                          <Button size="sm" className="flex-1 bg-gradient-primary text-white hover:opacity-90">
+                            View Plan
                           </Button>
-                          <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-blue-500">
-                            <MessageCircle className="w-4 h-4 mr-2" />
-                            {post.comments}
-                          </Button>
-                          <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-green-500">
-                            <Share2 className="w-4 h-4 mr-2" />
-                            Share
+                          <Button size="sm" variant="outline" className="border-concert-border">
+                            <Users className="w-4 h-4" />
                           </Button>
                         </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+
+                <Card className="bg-card border-concert-border">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <PartyPopper className="w-5 h-5" />
+                      Quick Plan Creator
+                    </CardTitle>
+                    <CardDescription>
+                      Start planning your next rave experience
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid gap-4 md:grid-cols-2">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium">Event Name</label>
+                        <Input placeholder="Epic Rave Night" className="bg-secondary border-concert-border" />
                       </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium">Date</label>
+                        <Input type="date" className="bg-secondary border-concert-border" />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Location</label>
+                      <Input placeholder="Where will it be?" className="bg-secondary border-concert-border" />
+                    </div>
+                    <Button className="w-full bg-gradient-primary text-white">
+                      Create Rave Plan
+                    </Button>
+                  </CardContent>
+                </Card>
               </TabsContent>
 
-              <TabsContent value="events" className="space-y-6">
+              <TabsContent value="concerts" className="space-y-6">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="relative flex-1">
+                    <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input 
+                      placeholder="Search concerts..." 
+                      className="pl-10 bg-secondary border-concert-border"
+                    />
+                  </div>
+                  <Button variant="outline" className="border-concert-border">
+                    Filter
+                  </Button>
+                </div>
+
                 <div className="grid grid-cols-1 gap-6">
                   {upcomingEvents.map((event) => (
                     <Card key={event.id} className="bg-card border-concert-border shadow-card hover:shadow-glow transition-all duration-300">
@@ -261,7 +284,7 @@ const Events = () => {
                           </div>
                           <div className="flex space-x-2">
                             <Button className="bg-gradient-primary hover:opacity-90">
-                              View Event
+                              Get Tickets
                             </Button>
                             <Button variant="outline">
                               <Heart className="w-4 h-4 mr-2" />

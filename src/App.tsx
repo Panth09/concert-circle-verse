@@ -26,8 +26,21 @@ const LoginPage = () => {
   );
 };
 
+// Layout component for pages with navigation
+const Layout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="min-h-screen bg-background">
+      <Navigation />
+      <main className="md:ml-64 pb-16 md:pb-0">
+        {children}
+      </main>
+    </div>
+  );
+};
+
 function App() {
   console.log('App component is rendering');
+  
   return (
     <Router>
       <div className="App">
@@ -35,87 +48,16 @@ function App() {
           {/* Login route - no navigation */}
           <Route path="/login" element={<LoginPage />} />
           
-          {/* All other routes - with navigation */}
-          <Route path="/" element={
-            <div className="min-h-screen bg-background">
-              <Navigation />
-              <main className="md:ml-64 pb-16 md:pb-0">
-                <Index />
-              </main>
-            </div>
-          } />
-          
-          <Route path="/events" element={
-            <div className="min-h-screen bg-background">
-              <Navigation />
-              <main className="md:ml-64 pb-16 md:pb-0">
-                <Events />
-              </main>
-            </div>
-          } />
-          
-          <Route path="/gig-plan" element={
-            <div className="min-h-screen bg-background">
-              <Navigation />
-              <main className="md:ml-64 pb-16 md:pb-0">
-                <GigPlan />
-              </main>
-            </div>
-          } />
-          
-          <Route path="/concerts" element={
-            <div className="min-h-screen bg-background">
-              <Navigation />
-              <main className="md:ml-64 pb-16 md:pb-0">
-                <Concert />
-              </main>
-            </div>
-          } />
-          
-          <Route path="/community" element={
-            <div className="min-h-screen bg-background">
-              <Navigation />
-              <main className="md:ml-64 pb-16 md:pb-0">
-                <Community />
-              </main>
-            </div>
-          } />
-          
-          <Route path="/store" element={
-            <div className="min-h-screen bg-background">
-              <Navigation />
-              <main className="md:ml-64 pb-16 md:pb-0">
-                <Store />
-              </main>
-            </div>
-          } />
-          
-          <Route path="/profile" element={
-            <div className="min-h-screen bg-background">
-              <Navigation />
-              <main className="md:ml-64 pb-16 md:pb-0">
-                <Profile onNavChange={() => {}} onLogout={() => {}} />
-              </main>
-            </div>
-          } />
-          
-          <Route path="/chat" element={
-            <div className="min-h-screen bg-background">
-              <Navigation />
-              <main className="md:ml-64 pb-16 md:pb-0">
-                <Chat />
-              </main>
-            </div>
-          } />
-          
-          <Route path="*" element={
-            <div className="min-h-screen bg-background">
-              <Navigation />
-              <main className="md:ml-64 pb-16 md:pb-0">
-                <NotFound />
-              </main>
-            </div>
-          } />
+          {/* All other routes - with navigation layout */}
+          <Route path="/" element={<Layout><Index /></Layout>} />
+          <Route path="/events" element={<Layout><Events /></Layout>} />
+          <Route path="/gig-plan" element={<Layout><GigPlan /></Layout>} />
+          <Route path="/concerts" element={<Layout><Concert /></Layout>} />
+          <Route path="/community" element={<Layout><Community /></Layout>} />
+          <Route path="/store" element={<Layout><Store /></Layout>} />
+          <Route path="/profile" element={<Layout><Profile onNavChange={() => {}} onLogout={() => {}} /></Layout>} />
+          <Route path="/chat" element={<Layout><Chat /></Layout>} />
+          <Route path="*" element={<Layout><NotFound /></Layout>} />
         </Routes>
       </div>
     </Router>

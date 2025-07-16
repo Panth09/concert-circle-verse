@@ -11,7 +11,7 @@ const ConcertCircleAuth = ({ onAuthComplete }) => {
     fullName: '',
     agreeTerms: false
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<{[key: string]: string}>({});
 
   useEffect(() => {
     if (currentScreen === 'welcome') {
@@ -35,7 +35,7 @@ const ConcertCircleAuth = ({ onAuthComplete }) => {
   };
 
   const validateForm = (isLogin = false) => {
-    const newErrors = {};
+    const newErrors: {[key: string]: string} = {};
     
     if (!formData.email && !formData.phone) {
       newErrors.emailOrPhone = 'Email or phone number is required';

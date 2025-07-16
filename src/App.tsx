@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import ConcertCircleAuth from './ConcertCircleAuth';
-import Profile from './profile-component';
+import ConcertCircleAuth from './pages/Login';
+import Profile from './pages/Profile';
 
 import {
   Home,

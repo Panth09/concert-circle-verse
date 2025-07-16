@@ -40,6 +40,7 @@ function App() {
 }
 
 const MainApp = () => {
+  console.log('MainApp component is rendering');
   return (
     <div className="min-h-screen bg-background">
       <Navigation />

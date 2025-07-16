@@ -1,33 +1,37 @@
-import React from 'react';
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Index from "./pages/Index";
+import Login from "./pages/Login";
+import Store from "./pages/Store";
+import Events from "./pages/Events";
+import Community from "./pages/Community";
+import Profile from "./pages/Profile";
+import NotFound from "./pages/NotFound";
 
-function App() {
-  console.log('App component is rendering - ultra basic version');
-  
-  return (
-    <div style={{ 
-      minHeight: '100vh', 
-      backgroundColor: '#1e293b', 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'center',
-      color: 'white',
-      fontFamily: 'Arial, sans-serif'
-    }}>
-      <div style={{ textAlign: 'center' }}>
-        <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Concert Circle</h1>
-        <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>App is working!</p>
-        <div style={{ 
-          backgroundColor: '#06b6d4', 
-          color: 'white', 
-          padding: '12px 24px', 
-          borderRadius: '12px',
-          display: 'inline-block'
-        }}>
-          Ultra Basic Version Running
-        </div>
-      </div>
-    </div>
-  );
-}
+const queryClient = new QueryClient();
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/store/*" element={<Store />} />
+          <Route path="/events/*" element={<Events />} />
+          <Route path="/community/*" element={<Community />} />
+          <Route path="/profile/*" element={<Profile />} />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
+);
 
 export default App;

@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Play, Clock, MapPin, Calendar, Users, Star, Music, Headphones } from "lucide-react";
 import { Link } from "react-router-dom";
+import Navigation from "@/components/Navigation";
 import concertHero1 from "@/assets/concert-hero-1.jpg";
 import concertHero2 from "@/assets/concert-hero-2.jpg";
 
@@ -43,6 +44,8 @@ const quickActions = [
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Navigation />
+      
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-concert-purple/20 via-transparent to-concert-pink/20" />

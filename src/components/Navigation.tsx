@@ -1,5 +1,6 @@
+
 import { Button } from "@/components/ui/button";
-import { Music, Home, Calendar, Users, Store, User, LogOut } from "lucide-react";
+import { Music, Home, Calendar, Users, Store, User, LogOut, MessageCircle } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const Navigation = () => {
@@ -17,9 +18,9 @@ const Navigation = () => {
 
   return (
     <>
-      {/* Desktop Sidebar */}
+      {/* Desktop Sidebar - Made Sticky */}
       <div className="hidden md:flex">
-        <nav className="fixed left-0 top-0 h-full w-64 bg-card border-r border-concert-border shadow-lg z-50">
+        <nav className="fixed left-0 top-0 h-full w-64 bg-card border-r border-concert-border shadow-lg z-50 overflow-y-auto">
           <div className="p-6">
             <Link to="/" className="flex items-center space-x-2 mb-8">
               <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
@@ -69,7 +70,7 @@ const Navigation = () => {
         </nav>
       </div>
 
-      {/* Mobile Bottom Navigation */}
+      {/* Mobile Bottom Navigation - Updated Icons */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-card border-t border-concert-border shadow-lg z-50">
         <div className="flex items-center justify-around py-2">
           {navItems.map((item) => {
@@ -87,7 +88,7 @@ const Navigation = () => {
                 asChild
               >
                 <Link to={item.path}>
-                  <Icon className="w-4 h-4" />
+                  <Icon className="w-5 h-5" />
                   <span className="text-xs">{item.label}</span>
                 </Link>
               </Button>

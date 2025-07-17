@@ -1,10 +1,12 @@
 
 import { Button } from "@/components/ui/button";
-import { Music, Home, Calendar, Users, Store, User, LogOut, MessageCircle } from "lucide-react";
+import { Music, Home, Calendar, Users, Store, User, LogOut, MessageCircle, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { useState } from "react";
 
 const Navigation = () => {
   const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
   
   const isActive = (path: string) => location.pathname.startsWith(path);
 
@@ -16,13 +18,28 @@ const Navigation = () => {
     { icon: User, label: "Profile", path: "/profile" },
   ];
 
+  const toggleSidebar = () => setIsOpen(!isOpen);
+
   return (
     <>
-      {/* Desktop Sidebar - Made Sticky */}
+      {/* Desktop Sidebar - Collapsible */}
       <div className="hidden md:flex">
-        <nav className="fixed left-0 top-0 h-full w-64 bg-card border-r border-concert-border shadow-lg z-50 overflow-y-auto">
-          <div className="p-6">
-            <Link to="/" className="flex items-center space-x-2 mb-8">
+        {/* Hamburger Menu Button - Always Visible */}
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={toggleSidebar}
+          className="fixed left-4 top-4 z-50 bg-card border border-concert-border shadow-lg"
+        >
+          {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </Button>
+
+        {/* Sidebar */}
+        <nav className={`fixed left-0 top-0 h-full bg-card border-r border-concert-border shadow-lg z-40 overflow-y-auto transition-all duration-300 ${
+          isOpen ? "w-64" : "w-0"
+        }`}>
+          <div className={`p-6 ${isOpen ? "block" : "hidden"}`}>
+            <Link to="/" className="flex items-center space-x-2 mb-8 mt-12">
               <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
                 <Music className="w-5 h-5 text-white" />
               </div>
@@ -44,6 +61,7 @@ const Navigation = () => {
                         : "text-muted-foreground hover:text-foreground"
                     }`}
                     asChild
+                    onClick={() => setIsOpen(false)} // Close sidebar when navigating
                   >
                     <Link to={item.path}>
                       <Icon className="w-4 h-4 mr-3" />
@@ -68,6 +86,14 @@ const Navigation = () => {
             </div>
           </div>
         </nav>
+
+        {/* Overlay for mobile-like behavior */}
+        {isOpen && (
+          <div 
+            className="fixed inset-0 bg-black/50 z-30" 
+            onClick={() => setIsOpen(false)}
+          />
+        )}
       </div>
 
       {/* Mobile Bottom Navigation - Updated Icons */}

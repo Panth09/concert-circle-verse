@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,12 +21,23 @@ import {
   Music, 
   Calendar,
   Heart,
-  Share2
+  Share2,
+  Edit3,
+  Crown,
+  Globe,
+  Moon,
+  HelpCircle,
+  UserPlus,
+  ChevronRight
 } from "lucide-react";
 import Navigation from "@/components/Navigation";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("profile");
+  const [userName, setUserName] = useState('USERNAME');
+  const [userPhone, setUserPhone] = useState('+91 1234567899');
+  const [darkMode, setDarkMode] = useState(true);
+  const [showEditProfile, setShowEditProfile] = useState(false);
 
   const userStats = [
     { label: "Events Attended", value: 42 },
@@ -58,244 +70,439 @@ const Profile = () => {
     }
   ];
 
+  const handleMenuClick = (item: string) => {
+    console.log(`Clicked: ${item}`);
+
+    switch (item) {
+      case 'Premium':
+        alert('Premium subscription features coming soon!');
+        break;
+      case 'Payment Methods':
+        alert('Payment methods management');
+        break;
+      case 'Profile':
+        setShowEditProfile(true);
+        break;
+      case 'Notifications':
+        alert('Notification settings');
+        break;
+      case 'Language':
+        alert('Language selection');
+        break;
+      case 'Help Center':
+        alert('Help and support');
+        break;
+      case 'Invite Friends':
+        alert('Invite friends to join');
+        break;
+      case 'Logout':
+        if (window.confirm('Are you sure you want to logout?')) {
+          localStorage.clear();
+          window.location.href = '/login';
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleDarkModeToggle = () => {
+    setDarkMode(!darkMode);
+    console.log('Dark mode toggled:', !darkMode);
+  };
+
+  const handleEditProfile = () => {
+    setShowEditProfile(true);
+  };
+
+  const handleSaveProfile = () => {
+    setShowEditProfile(false);
+    alert('Profile updated successfully!');
+  };
+
+  const menuItems = [
+    { icon: User, label: 'Profile', hasChevron: true },
+    { icon: Bell, label: 'Notifications', hasChevron: true },
+    { icon: Globe, label: 'Language', hasChevron: true },
+    { icon: Moon, label: 'Dark Mode', hasChevron: false, isToggle: true },
+    { icon: HelpCircle, label: 'Help Center', hasChevron: true },
+    { icon: UserPlus, label: 'Invite Friends', hasChevron: true },
+    { icon: LogOut, label: 'Logout', hasChevron: false, isLogout: true },
+  ];
+
+  if (showEditProfile) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        
+        <div className="md:ml-64 p-6">
+          <div className="container mx-auto max-w-2xl">
+            <div className="flex items-center justify-between mb-8">
+              <Button 
+                variant="ghost"
+                onClick={() => setShowEditProfile(false)}
+                className="text-primary hover:text-primary/80"
+              >
+                ← Back
+              </Button>
+              <h1 className="text-xl font-semibold">Edit Profile</h1>
+              <div></div>
+            </div>
+
+            <Card className="bg-card border-concert-border">
+              <CardContent className="p-6 space-y-6">
+                <div className="flex justify-center mb-8">
+                  <div className="relative">
+                    <Avatar className="w-24 h-24">
+                      <AvatarImage src="/src/assets/concert-hero-1.jpg" />
+                      <AvatarFallback className="bg-gradient-primary text-white text-2xl">
+                        {userName.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <Button 
+                      size="sm"
+                      className="absolute -bottom-2 -right-2 w-8 h-8 bg-primary rounded-full p-0"
+                    >
+                      <Edit3 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="username">Username</Label>
+                    <Input
+                      id="username"
+                      value={userName}
+                      onChange={(e) => setUserName(e.target.value)}
+                      className="bg-card border-concert-border"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="phone">Phone Number</Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      value={userPhone}
+                      onChange={(e) => setUserPhone(e.target.value)}
+                      className="bg-card border-concert-border"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="bio">Bio</Label>
+                    <Textarea
+                      id="bio"
+                      placeholder="Tell us about your music taste..."
+                      rows={4}
+                      className="bg-card border-concert-border"
+                    />
+                  </div>
+                </div>
+
+                <Button
+                  onClick={handleSaveProfile}
+                  className="w-full bg-gradient-primary text-white"
+                >
+                  Save Changes
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-2">
-            Profile
-          </h1>
-          <p className="text-muted-foreground">
-            Manage your account and preferences
-          </p>
-        </div>
-
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-8">
-            <TabsTrigger value="profile" className="flex items-center gap-2">
-              <User className="w-4 h-4" />
+      <div className="md:ml-64 p-6">
+        <div className="container mx-auto">
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-2">
               Profile
-            </TabsTrigger>
-            <TabsTrigger value="settings" className="flex items-center gap-2">
-              <Settings className="w-4 h-4" />
-              Settings
-            </TabsTrigger>
-            <TabsTrigger value="notifications" className="flex items-center gap-2">
-              <Bell className="w-4 h-4" />
-              Notifications
-            </TabsTrigger>
-            <TabsTrigger value="privacy" className="flex items-center gap-2">
-              <Shield className="w-4 h-4" />
-              Privacy
-            </TabsTrigger>
-          </TabsList>
+            </h1>
+            <p className="text-muted-foreground">
+              Manage your account and preferences
+            </p>
+          </div>
 
-          <TabsContent value="profile" className="space-y-6">
-            <div className="grid gap-6 md:grid-cols-3">
-              <Card className="md:col-span-2 bg-card border-concert-border">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <User className="w-5 h-5" />
-                    Profile Information
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center gap-4">
-                    <Avatar className="w-20 h-20">
-                      <AvatarImage src="/src/assets/concert-hero-1.jpg" />
-                      <AvatarFallback>JD</AvatarFallback>
-                    </Avatar>
-                    <Button variant="outline" className="border-concert-border">
-                      <Camera className="w-4 h-4 mr-2" />
-                      Change Photo
-                    </Button>
-                  </div>
-                  
-                  <div className="grid gap-4 md:grid-cols-2">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-4 mb-8">
+              <TabsTrigger value="profile" className="flex items-center gap-2">
+                <User className="w-4 h-4" />
+                Profile
+              </TabsTrigger>
+              <TabsTrigger value="settings" className="flex items-center gap-2">
+                <Settings className="w-4 h-4" />
+                Settings
+              </TabsTrigger>
+              <TabsTrigger value="notifications" className="flex items-center gap-2">
+                <Bell className="w-4 h-4" />
+                Notifications
+              </TabsTrigger>
+              <TabsTrigger value="privacy" className="flex items-center gap-2">
+                <Shield className="w-4 h-4" />
+                Privacy
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="profile" className="space-y-6">
+              <div className="grid gap-6 md:grid-cols-3">
+                <Card className="md:col-span-2 bg-card border-concert-border">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <User className="w-5 h-5" />
+                      Profile Information
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center gap-4">
+                      <Avatar className="w-20 h-20">
+                        <AvatarImage src="/src/assets/concert-hero-1.jpg" />
+                        <AvatarFallback className="bg-gradient-primary text-white text-xl">
+                          {userName.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1">
+                        <h2 className="text-xl font-bold">{userName}</h2>
+                        <p className="text-muted-foreground">{userPhone}</p>
+                        <p className="text-sm text-muted-foreground">Music Enthusiast • 12 concerts attended</p>
+                      </div>
+                      <Button 
+                        variant="outline" 
+                        onClick={handleEditProfile}
+                        className="border-concert-border"
+                      >
+                        <Edit3 className="w-4 h-4 mr-2" />
+                        Edit
+                      </Button>
+                    </div>
+                    
                     <div className="space-y-2">
-                      <Label htmlFor="firstName">First Name</Label>
-                      <Input id="firstName" defaultValue="John" className="bg-card border-concert-border" />
+                      <Label>Music Preferences</Label>
+                      <div className="flex flex-wrap gap-2">
+                        {["Electronic", "House", "Techno", "Progressive", "Ambient"].map((genre) => (
+                          <Badge key={genre} variant="secondary">{genre}</Badge>
+                        ))}
+                      </div>
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="lastName">Last Name</Label>
-                      <Input id="lastName" defaultValue="Doe" className="bg-card border-concert-border" />
+                  </CardContent>
+                </Card>
+
+                <div className="space-y-6">
+                  <Card className="bg-card border-concert-border">
+                    <CardHeader>
+                      <CardTitle className="text-lg">Stats</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid gap-4">
+                        {userStats.map((stat) => (
+                          <div key={stat.label} className="flex justify-between items-center">
+                            <span className="text-sm text-muted-foreground">{stat.label}</span>
+                            <span className="font-bold text-primary">{stat.value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-card border-concert-border">
+                    <CardHeader>
+                      <CardTitle className="text-lg">Recent Activity</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        {recentActivity.map((activity) => (
+                          <div key={activity.id} className="flex items-start gap-3">
+                            <activity.icon className="w-4 h-4 mt-1 text-primary" />
+                            <div>
+                              <p className="text-sm font-medium">{activity.title}</p>
+                              <p className="text-xs text-muted-foreground">{activity.date}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+
+              {/* Premium Section */}
+              <Card 
+                className="bg-gradient-to-r from-indigo-600/20 to-purple-600/20 border-indigo-500/40 cursor-pointer hover:from-indigo-600/30 hover:to-purple-600/30 transition-all duration-300"
+                onClick={() => handleMenuClick('Premium')}
+              >
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3">
+                    <Crown className="w-6 h-6 text-yellow-400" />
+                    <div>
+                      <h3 className="font-bold text-lg">Premium</h3>
+                      <p className="text-sm text-muted-foreground">Unlock exclusive concert experiences</p>
                     </div>
+                    <ChevronRight className="w-5 h-5 text-muted-foreground ml-auto" />
                   </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" defaultValue="john.doe@example.com" className="bg-card border-concert-border" />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="bio">Bio</Label>
-                    <Textarea 
-                      id="bio" 
-                      placeholder="Tell us about yourself..."
-                      className="bg-card border-concert-border"
-                      defaultValue="Music lover and festival enthusiast. Always looking for the next great show!"
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label>Music Preferences</Label>
-                    <div className="flex flex-wrap gap-2">
-                      {["Electronic", "House", "Techno", "Progressive", "Ambient"].map((genre) => (
-                        <Badge key={genre} variant="secondary">{genre}</Badge>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <Button className="bg-gradient-primary text-white">Save Changes</Button>
                 </CardContent>
               </Card>
 
-              <div className="space-y-6">
-                <Card className="bg-card border-concert-border">
-                  <CardHeader>
-                    <CardTitle className="text-lg">Stats</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid gap-4">
-                      {userStats.map((stat) => (
-                        <div key={stat.label} className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">{stat.label}</span>
-                          <span className="font-bold text-primary">{stat.value}</span>
-                        </div>
-                      ))}
+              {/* Payment Methods */}
+              <Card 
+                className="bg-card border-concert-border cursor-pointer hover:bg-muted/50 transition-all duration-300"
+                onClick={() => handleMenuClick('Payment Methods')}
+              >
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-3">
+                    <CreditCard className="w-5 h-5 text-primary" />
+                    <div>
+                      <h3 className="font-semibold">Payment Methods</h3>
+                      <p className="text-sm text-muted-foreground">Manage your payment options</p>
                     </div>
-                  </CardContent>
-                </Card>
+                    <ChevronRight className="w-5 h-5 text-muted-foreground ml-auto" />
+                  </div>
+                </CardContent>
+              </Card>
 
-                <Card className="bg-card border-concert-border">
-                  <CardHeader>
-                    <CardTitle className="text-lg">Recent Activity</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      {recentActivity.map((activity) => (
-                        <div key={activity.id} className="flex items-start gap-3">
-                          <activity.icon className="w-4 h-4 mt-1 text-primary" />
-                          <div>
-                            <p className="text-sm font-medium">{activity.title}</p>
-                            <p className="text-xs text-muted-foreground">{activity.date}</p>
-                          </div>
+              {/* Menu Items */}
+              <div className="space-y-2">
+                {menuItems.map((item, index) => (
+                  <Card
+                    key={index}
+                    className={`cursor-pointer transition-all duration-300 ${
+                      item.isLogout 
+                        ? 'border-red-500/20 hover:bg-red-500/10' 
+                        : 'bg-card border-concert-border hover:bg-muted/50'
+                    }`}
+                    onClick={() => item.isToggle ? handleDarkModeToggle() : handleMenuClick(item.label)}
+                  >
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <item.icon className={`w-5 h-5 ${item.isLogout ? 'text-red-500' : ''}`} />
+                          <span className={`font-medium ${item.isLogout ? 'text-red-500' : ''}`}>
+                            {item.label}
+                          </span>
                         </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
+                        {item.isToggle ? (
+                          <Switch checked={darkMode} />
+                        ) : item.hasChevron ? (
+                          <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                        ) : null}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
-            </div>
-          </TabsContent>
+            </TabsContent>
 
-          <TabsContent value="settings" className="space-y-6">
-            <Card className="bg-card border-concert-border">
-              <CardHeader>
-                <CardTitle>Account Settings</CardTitle>
-                <CardDescription>Manage your account preferences</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="language">Language</Label>
-                  <Input id="language" defaultValue="English" className="bg-card border-concert-border" />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="timezone">Timezone</Label>
-                  <Input id="timezone" defaultValue="UTC-5 (EST)" className="bg-card border-concert-border" />
-                </div>
-                
-                <Separator />
-                
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label>Two-Factor Authentication</Label>
-                    <p className="text-sm text-muted-foreground">Add an extra layer of security</p>
+            <TabsContent value="settings" className="space-y-6">
+              <Card className="bg-card border-concert-border">
+                <CardHeader>
+                  <CardTitle>Account Settings</CardTitle>
+                  <CardDescription>Manage your account preferences</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="language">Language</Label>
+                    <Input id="language" defaultValue="English" className="bg-card border-concert-border" />
                   </div>
-                  <Switch />
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label>Email Notifications</Label>
-                    <p className="text-sm text-muted-foreground">Receive updates via email</p>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="timezone">Timezone</Label>
+                    <Input id="timezone" defaultValue="UTC-5 (EST)" className="bg-card border-concert-border" />
                   </div>
-                  <Switch defaultChecked />
-                </div>
-                
-                <Button className="bg-gradient-primary text-white">Save Settings</Button>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="notifications" className="space-y-6">
-            <Card className="bg-card border-concert-border">
-              <CardHeader>
-                <CardTitle>Notification Preferences</CardTitle>
-                <CardDescription>Choose what notifications you want to receive</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {[
-                  { title: "New Events", desc: "Get notified about new events in your area" },
-                  { title: "Community Updates", desc: "Updates from communities you've joined" },
-                  { title: "Friend Activity", desc: "When friends share new content" },
-                  { title: "Event Reminders", desc: "Reminders for upcoming events" },
-                  { title: "Security Alerts", desc: "Important security notifications" }
-                ].map((notification) => (
-                  <div key={notification.title} className="flex items-center justify-between">
+                  
+                  <Separator />
+                  
+                  <div className="flex items-center justify-between">
                     <div>
-                      <Label>{notification.title}</Label>
-                      <p className="text-sm text-muted-foreground">{notification.desc}</p>
+                      <Label>Two-Factor Authentication</Label>
+                      <p className="text-sm text-muted-foreground">Add an extra layer of security</p>
+                    </div>
+                    <Switch />
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <Label>Email Notifications</Label>
+                      <p className="text-sm text-muted-foreground">Receive updates via email</p>
                     </div>
                     <Switch defaultChecked />
                   </div>
-                ))}
-                
-                <Button className="bg-gradient-primary text-white">Save Preferences</Button>
-              </CardContent>
-            </Card>
-          </TabsContent>
+                  
+                  <Button className="bg-gradient-primary text-white">Save Settings</Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-          <TabsContent value="privacy" className="space-y-6">
-            <Card className="bg-card border-concert-border">
-              <CardHeader>
-                <CardTitle>Privacy Settings</CardTitle>
-                <CardDescription>Control your privacy and data sharing</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {[
-                  { title: "Profile Visibility", desc: "Make your profile visible to others" },
-                  { title: "Activity Status", desc: "Show when you're online" },
-                  { title: "Event History", desc: "Allow others to see events you've attended" },
-                  { title: "Location Sharing", desc: "Share your location for event recommendations" },
-                  { title: "Data Analytics", desc: "Help improve the app with usage data" }
-                ].map((privacy) => (
-                  <div key={privacy.title} className="flex items-center justify-between">
-                    <div>
-                      <Label>{privacy.title}</Label>
-                      <p className="text-sm text-muted-foreground">{privacy.desc}</p>
+            <TabsContent value="notifications" className="space-y-6">
+              <Card className="bg-card border-concert-border">
+                <CardHeader>
+                  <CardTitle>Notification Preferences</CardTitle>
+                  <CardDescription>Choose what notifications you want to receive</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {[
+                    { title: "New Events", desc: "Get notified about new events in your area" },
+                    { title: "Community Updates", desc: "Updates from communities you've joined" },
+                    { title: "Friend Activity", desc: "When friends share new content" },
+                    { title: "Event Reminders", desc: "Reminders for upcoming events" },
+                    { title: "Security Alerts", desc: "Important security notifications" }
+                  ].map((notification) => (
+                    <div key={notification.title} className="flex items-center justify-between">
+                      <div>
+                        <Label>{notification.title}</Label>
+                        <p className="text-sm text-muted-foreground">{notification.desc}</p>
+                      </div>
+                      <Switch defaultChecked />
                     </div>
-                    <Switch defaultChecked />
+                  ))}
+                  
+                  <Button className="bg-gradient-primary text-white">Save Preferences</Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="privacy" className="space-y-6">
+              <Card className="bg-card border-concert-border">
+                <CardHeader>
+                  <CardTitle>Privacy Settings</CardTitle>
+                  <CardDescription>Control your privacy and data sharing</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {[
+                    { title: "Profile Visibility", desc: "Make your profile visible to others" },
+                    { title: "Activity Status", desc: "Show when you're online" },
+                    { title: "Event History", desc: "Allow others to see events you've attended" },
+                    { title: "Location Sharing", desc: "Share your location for event recommendations" },
+                    { title: "Data Analytics", desc: "Help improve the app with usage data" }
+                  ].map((privacy) => (
+                    <div key={privacy.title} className="flex items-center justify-between">
+                      <div>
+                        <Label>{privacy.title}</Label>
+                        <p className="text-sm text-muted-foreground">{privacy.desc}</p>
+                      </div>
+                      <Switch defaultChecked />
+                    </div>
+                  ))}
+                  
+                  <Separator />
+                  
+                  <div className="space-y-2">
+                    <Button variant="outline" className="w-full border-concert-border">
+                      Download My Data
+                    </Button>
+                    <Button variant="outline" className="w-full border-red-500 text-red-500 hover:bg-red-50">
+                      Delete Account
+                    </Button>
                   </div>
-                ))}
-                
-                <Separator />
-                
-                <div className="space-y-2">
-                  <Button variant="outline" className="w-full border-concert-border">
-                    Download My Data
-                  </Button>
-                  <Button variant="outline" className="w-full border-red-500 text-red-500 hover:bg-red-50">
-                    Delete Account
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
     </div>
   );

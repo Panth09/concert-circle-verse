@@ -3,18 +3,35 @@ import React, { useState, useEffect } from 'react';
 import { Music, Eye, EyeOff, Mail, Phone, Lock, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+interface FormData {
+  email: string;
+  phone: string;
+  password: string;
+  fullName: string;
+  agreeTerms: boolean;
+}
+
+interface FormErrors {
+  emailOrPhone?: string;
+  password?: string;
+  fullName?: string;
+  email?: string;
+  phone?: string;
+  agreeTerms?: string;
+}
+
 const Login = () => {
   const navigate = useNavigate();
   const [currentScreen, setCurrentScreen] = useState('auth');
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     email: '',
     phone: '',
     password: '',
     fullName: '',
     agreeTerms: false
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<FormErrors>({});
 
   useEffect(() => {
     if (currentScreen === 'welcome') {
@@ -25,19 +42,19 @@ const Login = () => {
     }
   }, [currentScreen, navigate]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
-    if (errors[name]) {
+    if (errors[name as keyof FormErrors]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
   };
 
-  const validateForm = (isLogin = false) => {
-    const newErrors = {};
+  const validateForm = (isLogin = false): boolean => {
+    const newErrors: FormErrors = {};
     
     if (!formData.email && !formData.phone) {
       newErrors.emailOrPhone = 'Email or phone number is required';
@@ -86,47 +103,43 @@ const Login = () => {
 
   if (currentScreen === 'auth') {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center shadow-glow">
-                <Music className="w-6 h-6 text-white" />
-              </div>
-              <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                Concert Circle
-              </h1>
+              <Music className="w-12 h-12 text-cyan-400" />
+              <h1 className="text-3xl font-bold text-white">Concert Circle</h1>
             </div>
-            <p className="text-muted-foreground">Your gateway to amazing live music experiences</p>
+            <p className="text-slate-300">Your gateway to amazing live music experiences</p>
           </div>
           
-          <div className="bg-card backdrop-blur-md rounded-2xl p-8 border border-concert-border shadow-card space-y-4">
+          <div className="bg-slate-900/40 backdrop-blur-md rounded-2xl p-8 border border-slate-600/30 space-y-4">
             <button
               onClick={() => setCurrentScreen('login')}
-              className="w-full bg-gradient-primary text-white py-3 rounded-xl font-medium hover:opacity-90 transition-all duration-300"
+              className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-3 rounded-xl font-medium hover:from-cyan-400 hover:to-blue-400 transition-all duration-300"
             >
               Login
             </button>
             
             <button
               onClick={() => setCurrentScreen('signup')}
-              className="w-full bg-gradient-to-r from-primary to-accent text-white py-3 rounded-xl font-medium hover:opacity-90 transition-all duration-300"
+              className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-3 rounded-xl font-medium hover:from-blue-400 hover:to-indigo-400 transition-all duration-300"
             >
               Sign Up
             </button>
             
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-concert-border"></div>
+                <div className="w-full border-t border-slate-600"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-card text-muted-foreground">or</span>
+                <span className="px-2 bg-slate-900/40 text-slate-300">or</span>
               </div>
             </div>
             
             <button
               onClick={handleGoogleAuth}
-              className="w-full bg-secondary text-secondary-foreground py-3 rounded-xl font-medium hover:bg-secondary/80 transition-all duration-300 flex items-center justify-center gap-2"
+              className="w-full bg-white text-gray-900 py-3 rounded-xl font-medium hover:bg-gray-100 transition-all duration-300 flex items-center justify-center gap-2"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -144,49 +157,47 @@ const Login = () => {
 
   if (currentScreen === 'login') {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center shadow-glow">
-                <Music className="w-6 h-6 text-white" />
-              </div>
-              <h1 className="text-3xl font-bold text-foreground">Welcome Back</h1>
+              <Music className="w-12 h-12 text-cyan-400" />
+              <h1 className="text-3xl font-bold text-white">Welcome Back</h1>
             </div>
-            <p className="text-muted-foreground">Login to your Concert Circle account</p>
+            <p className="text-slate-300">Login to your Concert Circle account</p>
           </div>
           
-          <div className="bg-card backdrop-blur-md rounded-2xl p-8 border border-concert-border shadow-card space-y-6">
+          <div className="bg-slate-900/40 backdrop-blur-md rounded-2xl p-8 border border-slate-600/30 space-y-6">
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">Email or Phone Number</label>
+              <label className="block text-sm font-medium text-white mb-2">Email or Phone Number</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
-                  <Mail className="w-5 h-5 text-muted-foreground" />
+                  <Mail className="w-5 h-5 text-slate-400" />
                 </div>
                 <input
                   type="text"
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full pl-10 pr-4 py-3 bg-secondary border border-concert-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                   placeholder="Enter email or phone number"
                 />
               </div>
-              {errors.emailOrPhone && <p className="text-destructive text-sm mt-1">{errors.emailOrPhone}</p>}
+              {errors.emailOrPhone && <p className="text-red-400 text-sm mt-1">{errors.emailOrPhone}</p>}
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">Password</label>
+              <label className="block text-sm font-medium text-white mb-2">Password</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
-                  <Lock className="w-5 h-5 text-muted-foreground" />
+                  <Lock className="w-5 h-5 text-slate-400" />
                 </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                  className="w-full pl-10 pr-12 py-3 bg-secondary border border-concert-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                  className="w-full pl-10 pr-12 py-3 bg-slate-800/50 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                   placeholder="Enter your password"
                 />
                 <button
@@ -194,18 +205,18 @@ const Login = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center"
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5 text-muted-foreground" /> : <Eye className="w-5 h-5 text-muted-foreground" />}
+                  {showPassword ? <EyeOff className="w-5 h-5 text-slate-400" /> : <Eye className="w-5 h-5 text-slate-400" />}
                 </button>
               </div>
-              {errors.password && <p className="text-destructive text-sm mt-1">{errors.password}</p>}
+              {errors.password && <p className="text-red-400 text-sm mt-1">{errors.password}</p>}
             </div>
             
             <div className="flex items-center justify-between">
               <label className="flex items-center">
-                <input type="checkbox" className="rounded border-concert-border text-primary focus:ring-ring" />
-                <span className="ml-2 text-sm text-muted-foreground">Remember me</span>
+                <input type="checkbox" className="rounded border-slate-600 text-cyan-500 focus:ring-cyan-500" />
+                <span className="ml-2 text-sm text-slate-300">Remember me</span>
               </label>
-              <button type="button" className="text-sm text-primary hover:text-primary/80">
+              <button type="button" className="text-sm text-cyan-400 hover:text-cyan-300">
                 Forgot password?
               </button>
             </div>
@@ -213,24 +224,24 @@ const Login = () => {
             <button
               type="button"
               onClick={handleLogin}
-              className="w-full bg-gradient-primary text-white py-3 rounded-xl font-medium hover:opacity-90 transition-all duration-300"
+              className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-3 rounded-xl font-medium hover:from-cyan-400 hover:to-blue-400 transition-all duration-300"
             >
               Login
             </button>
             
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-concert-border"></div>
+                <div className="w-full border-t border-slate-600"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-card text-muted-foreground">or</span>
+                <span className="px-2 bg-slate-900/40 text-slate-300">or</span>
               </div>
             </div>
             
             <button
               type="button"
               onClick={handleGoogleAuth}
-              className="w-full bg-secondary text-secondary-foreground py-3 rounded-xl font-medium hover:bg-secondary/80 transition-all duration-300 flex items-center justify-center gap-2"
+              className="w-full bg-white text-gray-900 py-3 rounded-xl font-medium hover:bg-gray-100 transition-all duration-300 flex items-center justify-center gap-2"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -242,11 +253,11 @@ const Login = () => {
             </button>
             
             <div className="text-center">
-              <span className="text-muted-foreground">Don't have an account? </span>
+              <span className="text-slate-300">Don't have an account? </span>
               <button
                 type="button"
                 onClick={() => setCurrentScreen('signup')}
-                className="text-primary hover:text-primary/80 font-medium"
+                className="text-cyan-400 hover:text-cyan-300 font-medium"
               >
                 Sign up
               </button>
@@ -256,7 +267,7 @@ const Login = () => {
           <div className="text-center mt-6">
             <button
               onClick={() => setCurrentScreen('auth')}
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-slate-400 hover:text-white transition-colors"
             >
               ← Back
             </button>
@@ -268,85 +279,83 @@ const Login = () => {
 
   if (currentScreen === 'signup') {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center shadow-glow">
-                <Music className="w-6 h-6 text-white" />
-              </div>
-              <h1 className="text-3xl font-bold text-foreground">Join Concert Circle</h1>
+              <Music className="w-12 h-12 text-cyan-400" />
+              <h1 className="text-3xl font-bold text-white">Join Concert Circle</h1>
             </div>
-            <p className="text-muted-foreground">Create your account to get started</p>
+            <p className="text-slate-300">Create your account to get started</p>
           </div>
           
-          <div className="bg-card backdrop-blur-md rounded-2xl p-8 border border-concert-border shadow-card space-y-6">
+          <div className="bg-slate-900/40 backdrop-blur-md rounded-2xl p-8 border border-slate-600/30 space-y-6">
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">Full Name</label>
+              <label className="block text-sm font-medium text-white mb-2">Full Name</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
-                  <User className="w-5 h-5 text-muted-foreground" />
+                  <User className="w-5 h-5 text-slate-400" />
                 </div>
                 <input
                   type="text"
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleInputChange}
-                  className="w-full pl-10 pr-4 py-3 bg-secondary border border-concert-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                   placeholder="Enter your full name"
                 />
               </div>
-              {errors.fullName && <p className="text-destructive text-sm mt-1">{errors.fullName}</p>}
+              {errors.fullName && <p className="text-red-400 text-sm mt-1">{errors.fullName}</p>}
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">Email Address</label>
+              <label className="block text-sm font-medium text-white mb-2">Email Address</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
-                  <Mail className="w-5 h-5 text-muted-foreground" />
+                  <Mail className="w-5 h-5 text-slate-400" />
                 </div>
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full pl-10 pr-4 py-3 bg-secondary border border-concert-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                   placeholder="Enter your email address"
                 />
               </div>
-              {errors.email && <p className="text-destructive text-sm mt-1">{errors.email}</p>}
+              {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">Phone Number</label>
+              <label className="block text-sm font-medium text-white mb-2">Phone Number</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
-                  <Phone className="w-5 h-5 text-muted-foreground" />
+                  <Phone className="w-5 h-5 text-slate-400" />
                 </div>
                 <input
                   type="tel"
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="w-full pl-10 pr-4 py-3 bg-secondary border border-concert-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                   placeholder="Enter your phone number"
                 />
               </div>
-              {errors.phone && <p className="text-destructive text-sm mt-1">{errors.phone}</p>}
+              {errors.phone && <p className="text-red-400 text-sm mt-1">{errors.phone}</p>}
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">Password</label>
+              <label className="block text-sm font-medium text-white mb-2">Password</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
-                  <Lock className="w-5 h-5 text-muted-foreground" />
+                  <Lock className="w-5 h-5 text-slate-400" />
                 </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                  className="w-full pl-10 pr-12 py-3 bg-secondary border border-concert-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                  className="w-full pl-10 pr-12 py-3 bg-slate-800/50 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                   placeholder="Create a password"
                 />
                 <button
@@ -354,10 +363,10 @@ const Login = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center"
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5 text-muted-foreground" /> : <Eye className="w-5 h-5 text-muted-foreground" />}
+                  {showPassword ? <EyeOff className="w-5 h-5 text-slate-400" /> : <Eye className="w-5 h-5 text-slate-400" />}
                 </button>
               </div>
-              {errors.password && <p className="text-destructive text-sm mt-1">{errors.password}</p>}
+              {errors.password && <p className="text-red-400 text-sm mt-1">{errors.password}</p>}
             </div>
             
             <div className="flex items-start">
@@ -367,45 +376,45 @@ const Login = () => {
                   name="agreeTerms"
                   checked={formData.agreeTerms}
                   onChange={handleInputChange}
-                  className="w-4 h-4 text-primary bg-secondary border-concert-border rounded focus:ring-ring focus:ring-2"
+                  className="w-4 h-4 text-cyan-500 bg-slate-800 border-slate-600 rounded focus:ring-cyan-500 focus:ring-2"
                 />
               </div>
               <div className="ml-3 text-sm">
-                <label className="text-muted-foreground">
+                <label className="text-slate-300">
                   I agree to the{' '}
-                  <button type="button" className="text-primary hover:text-primary/80">
+                  <button type="button" className="text-cyan-400 hover:text-cyan-300">
                     Terms and Conditions
                   </button>
                   {' '}and{' '}
-                  <button type="button" className="text-primary hover:text-primary/80">
+                  <button type="button" className="text-cyan-400 hover:text-cyan-300">
                     Privacy Policy
                   </button>
                 </label>
               </div>
             </div>
-            {errors.agreeTerms && <p className="text-destructive text-sm">{errors.agreeTerms}</p>}
+            {errors.agreeTerms && <p className="text-red-400 text-sm">{errors.agreeTerms}</p>}
             
             <button
               type="button"
               onClick={handleSignup}
-              className="w-full bg-gradient-to-r from-primary to-accent text-white py-3 rounded-xl font-medium hover:opacity-90 transition-all duration-300"
+              className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-3 rounded-xl font-medium hover:from-blue-400 hover:to-indigo-400 transition-all duration-300"
             >
               Create Account
             </button>
             
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-concert-border"></div>
+                <div className="w-full border-t border-slate-600"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-card text-muted-foreground">or</span>
+                <span className="px-2 bg-slate-900/40 text-slate-300">or</span>
               </div>
             </div>
             
             <button
               type="button"
               onClick={handleGoogleAuth}
-              className="w-full bg-secondary text-secondary-foreground py-3 rounded-xl font-medium hover:bg-secondary/80 transition-all duration-300 flex items-center justify-center gap-2"
+              className="w-full bg-white text-gray-900 py-3 rounded-xl font-medium hover:bg-gray-100 transition-all duration-300 flex items-center justify-center gap-2"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -417,11 +426,11 @@ const Login = () => {
             </button>
             
             <div className="text-center">
-              <span className="text-muted-foreground">Already have an account? </span>
+              <span className="text-slate-300">Already have an account? </span>
               <button
                 type="button"
                 onClick={() => setCurrentScreen('login')}
-                className="text-primary hover:text-primary/80 font-medium"
+                className="text-cyan-400 hover:text-cyan-300 font-medium"
               >
                 Login
               </button>
@@ -431,7 +440,7 @@ const Login = () => {
           <div className="text-center mt-6">
             <button
               onClick={() => setCurrentScreen('auth')}
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-slate-400 hover:text-white transition-colors"
             >
               ← Back
             </button>
@@ -443,21 +452,19 @@ const Login = () => {
 
   if (currentScreen === 'welcome') {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4">
         <div className="text-center">
           <div className="animate-bounce mb-8">
-            <div className="w-24 h-24 bg-gradient-primary rounded-xl flex items-center justify-center shadow-glow mx-auto">
-              <Music className="w-12 h-12 text-white" />
-            </div>
+            <Music className="w-24 h-24 text-cyan-400 mx-auto" />
           </div>
-          <h1 className="text-4xl lg:text-5xl font-bold text-foreground mb-4 animate-pulse">
+          <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4 animate-pulse">
             Welcome to Concert Circle!
           </h1>
-          <p className="text-xl text-muted-foreground mb-8">
+          <p className="text-xl text-slate-300 mb-8">
             Get ready to discover amazing live music experiences
           </p>
           <div className="flex justify-center">
-            <div className="w-16 h-1 bg-gradient-primary rounded-full animate-pulse"></div>
+            <div className="w-16 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full animate-pulse"></div>
           </div>
         </div>
       </div>
@@ -465,20 +472,16 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4">
       <div className="text-center">
         <div className="flex items-center justify-center gap-3 mb-4">
-          <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center shadow-glow">
-            <Music className="w-6 h-6 text-white" />
-          </div>
-          <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-            Concert Circle
-          </h1>
+          <Music className="w-12 h-12 text-cyan-400" />
+          <h1 className="text-3xl font-bold text-white">Concert Circle</h1>
         </div>
-        <p className="text-muted-foreground mb-8">Main app would be loaded here</p>
+        <p className="text-slate-300 mb-8">Main app would be loaded here</p>
         <button
           onClick={() => setCurrentScreen('auth')}
-          className="bg-gradient-primary text-white px-6 py-3 rounded-xl font-medium hover:opacity-90 transition-all duration-300"
+          className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-6 py-3 rounded-xl font-medium hover:from-cyan-400 hover:to-blue-400 transition-all duration-300"
         >
           Back to Auth
         </button>

@@ -1,8 +1,9 @@
 
 import { Button } from "@/components/ui/button";
-import { Music, Home, Calendar, Users, Store, User, LogOut, MessageCircle, Menu, X } from "lucide-react";
+import { Home, Calendar, Users, Store, User, LogOut, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
+import AnimatedLogo from "@/components/AnimatedLogo";
 
 const Navigation = () => {
   const location = useLocation();
@@ -39,13 +40,8 @@ const Navigation = () => {
           isOpen ? "w-64" : "w-0"
         }`}>
           <div className={`p-6 ${isOpen ? "block" : "hidden"}`}>
-            <Link to="/" className="flex items-center space-x-2 mb-8 mt-12">
-              <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
-                <Music className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                Concert Circle
-              </span>
+            <Link to="/" className="mb-8 mt-12 block">
+              <AnimatedLogo size="md" showText={true} />
             </Link>
 
             <div className="space-y-2">

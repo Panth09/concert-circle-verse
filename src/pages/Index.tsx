@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Play, Users, Music, Calendar, Package, ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
+import AnimatedLogo from "@/components/AnimatedLogo";
 import concertHero1 from "@/assets/concert-hero-1.jpg";
 import concertHero2 from "@/assets/concert-hero-2.jpg";
 
@@ -18,9 +19,9 @@ const Index = () => {
         {/* Header */}
         <div className="bg-gradient-to-br from-concert-purple/20 via-transparent to-concert-pink/20 p-6">
           <div className="text-center space-y-4">
-            <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              Concert Circle
-            </h1>
+            <div className="flex justify-center">
+              <AnimatedLogo size="lg" showText={true} />
+            </div>
             <div className="relative">
               <img
                 src={concertHero1}

@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { Music, Eye, EyeOff, Mail, Phone, Lock, User } from 'lucide-react';
+import { Eye, EyeOff, Mail, Phone, Lock, User } from 'lucide-react';
+import AnimatedLogo from "@/components/AnimatedLogo";
 import { useNavigate } from 'react-router-dom';
 
 interface FormData {
@@ -106,9 +107,8 @@ const Login = () => {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <Music className="w-12 h-12 text-cyan-400" />
-              <h1 className="text-3xl font-bold text-white">Concert Circle</h1>
+            <div className="flex justify-center mb-4">
+              <AnimatedLogo size="lg" showText={true} className="text-white" />
             </div>
             <p className="text-slate-300">Your gateway to amazing live music experiences</p>
           </div>
@@ -160,9 +160,9 @@ const Login = () => {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <Music className="w-12 h-12 text-cyan-400" />
-              <h1 className="text-3xl font-bold text-white">Welcome Back</h1>
+            <div className="flex justify-center mb-4">
+              <AnimatedLogo size="lg" showText={false} />
+              <h1 className="text-3xl font-bold text-white ml-2">Welcome Back</h1>
             </div>
             <p className="text-slate-300">Login to your Concert Circle account</p>
           </div>
@@ -282,9 +282,9 @@ const Login = () => {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <Music className="w-12 h-12 text-cyan-400" />
-              <h1 className="text-3xl font-bold text-white">Join Concert Circle</h1>
+            <div className="flex justify-center mb-4">
+              <AnimatedLogo size="lg" showText={false} />
+              <h1 className="text-3xl font-bold text-white ml-2">Join Concert Circle</h1>
             </div>
             <p className="text-slate-300">Create your account to get started</p>
           </div>
@@ -454,8 +454,8 @@ const Login = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4">
         <div className="text-center">
-          <div className="animate-bounce mb-8">
-            <Music className="w-24 h-24 text-cyan-400 mx-auto" />
+          <div className="animate-bounce mb-8 flex justify-center">
+            <AnimatedLogo size="lg" showText={false} />
           </div>
           <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4 animate-pulse">
             Welcome to Concert Circle!
@@ -474,9 +474,8 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4">
       <div className="text-center">
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <Music className="w-12 h-12 text-cyan-400" />
-          <h1 className="text-3xl font-bold text-white">Concert Circle</h1>
+        <div className="flex justify-center mb-4">
+          <AnimatedLogo size="lg" showText={true} className="text-white" />
         </div>
         <p className="text-slate-300 mb-8">Main app would be loaded here</p>
         <button

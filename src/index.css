@@ -121,3 +121,68 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* Animated Logo Styles */
+@keyframes pulse-ring-1 {
+  0%, 100% { 
+    r: 35;
+    opacity: 0.6;
+  }
+  50% { 
+    r: 38;
+    opacity: 0.4;
+  }
+}
+
+@keyframes pulse-ring-2 {
+  0%, 100% { 
+    r: 25;
+    opacity: 0.8;
+  }
+  50% { 
+    r: 28;
+    opacity: 0.6;
+  }
+}
+
+@keyframes pulse-ring-3 {
+  0%, 100% { 
+    r: 15;
+    opacity: 1;
+  }
+  50% { 
+    r: 18;
+    opacity: 0.7;
+  }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { 
+    background-position: 0% 50%; 
+  }
+  50% { 
+    background-position: 100% 50%; 
+  }
+}
+
+.animate-pulse-ring-1 {
+  animation: pulse-ring-1 4s ease-in-out infinite;
+}
+
+.animate-pulse-ring-2 {
+  animation: pulse-ring-2 3s ease-in-out infinite;
+}
+
+.animate-pulse-ring-3 {
+  animation: pulse-ring-3 2s ease-in-out infinite;
+}
+
+.animated-logo-text {
+  background: linear-gradient(90deg, #4ddde0, #52bdfb, #d269e6, #ff3131);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 8s ease-in-out infinite;
+  letter-spacing: -1px;
+}

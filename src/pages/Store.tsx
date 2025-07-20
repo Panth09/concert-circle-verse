@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, Heart, Star, Plus, Minus } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
+import AnimatedLogo from "@/components/AnimatedLogo";
 
 const storeItems = [
   {
@@ -71,9 +72,12 @@ const Store = () => {
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-4xl font-bold mb-2 bg-gradient-primary bg-clip-text text-transparent">
-                Concert Circle Store
-              </h1>
+              <div className="flex items-center mb-2">
+                <AnimatedLogo size="md" showText={false} />
+                <h1 className="text-4xl font-bold ml-2 bg-gradient-primary bg-clip-text text-transparent">
+                  Store
+                </h1>
+              </div>
               <p className="text-muted-foreground text-lg">
                 Discover exclusive merchandise and collectibles
               </p>

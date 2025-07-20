@@ -13,8 +13,8 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      {/* Main Content with margin for desktop sidebar */}
-      <div className="md:ml-64 pb-20 md:pb-0">
+      {/* Main Content - Full Width */}
+      <div className="pb-20 md:pb-0">
         {/* Header */}
         <div className="bg-gradient-to-br from-concert-purple/20 via-transparent to-concert-pink/20 p-6">
           <div className="text-center space-y-4">

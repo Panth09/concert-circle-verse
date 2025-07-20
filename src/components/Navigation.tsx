@@ -35,7 +35,7 @@ const Navigation = () => {
         </Button>
 
         {/* Sidebar */}
-        <nav className={`fixed left-0 top-0 h-full bg-card border-r border-concert-border shadow-lg z-40 overflow-y-auto transition-all duration-300 ${
+        <nav className={`fixed left-0 top-0 h-full bg-card border-r border-concert-border shadow-lg z-40 overflow-hidden transition-all duration-300 ${
           isOpen ? "w-64" : "w-0"
         }`}>
           <div className={`p-6 ${isOpen ? "block" : "hidden"}`}>

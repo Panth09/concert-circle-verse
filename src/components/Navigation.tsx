@@ -22,18 +22,18 @@ const Navigation = () => {
 
   return (
     <>
-      {/* Desktop Sidebar - Collapsible */}
-      <div className="hidden md:flex">
-        {/* Hamburger Menu Button - Always Visible */}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={toggleSidebar}
-          className="fixed left-4 top-4 z-50 bg-card border border-concert-border shadow-lg"
-        >
-          {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </Button>
+      {/* Hamburger Menu Button - Always Visible */}
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={toggleSidebar}
+        className="fixed left-4 top-4 z-50 bg-card border border-concert-border shadow-lg"
+      >
+        {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+      </Button>
 
+      {/* Desktop Sidebar - Overlay */}
+      <div className="hidden md:block">
         {/* Sidebar */}
         <nav className={`fixed left-0 top-0 h-full bg-card border-r border-concert-border shadow-lg z-40 overflow-hidden transition-all duration-300 ${
           isOpen ? "w-64" : "w-0"

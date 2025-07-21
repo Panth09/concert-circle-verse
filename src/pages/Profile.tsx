@@ -75,25 +75,25 @@ const Profile = () => {
 
     switch (item) {
       case 'Premium':
-        alert('Premium subscription features coming soon!');
+        setActiveTab('premium');
         break;
       case 'Payment Methods':
-        alert('Payment methods management');
+        setActiveTab('payments');
         break;
       case 'Profile':
         setShowEditProfile(true);
         break;
       case 'Notifications':
-        alert('Notification settings');
+        setActiveTab('notifications');
         break;
       case 'Language':
-        alert('Language selection');
+        setActiveTab('settings');
         break;
       case 'Help Center':
-        alert('Help and support');
+        setActiveTab('help');
         break;
       case 'Invite Friends':
-        alert('Invite friends to join');
+        setActiveTab('invite');
         break;
       case 'Logout':
         if (window.confirm('Are you sure you want to logout?')) {
@@ -231,7 +231,7 @@ const Profile = () => {
           </div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-4 mb-8">
+            <TabsList className="grid w-full grid-cols-6 mb-8">
               <TabsTrigger value="profile" className="flex items-center gap-2">
                 <User className="w-4 h-4" />
                 Profile
@@ -247,6 +247,14 @@ const Profile = () => {
               <TabsTrigger value="privacy" className="flex items-center gap-2">
                 <Shield className="w-4 h-4" />
                 Privacy
+              </TabsTrigger>
+              <TabsTrigger value="premium" className="flex items-center gap-2">
+                <Crown className="w-4 h-4" />
+                Premium
+              </TabsTrigger>
+              <TabsTrigger value="payments" className="flex items-center gap-2">
+                <CreditCard className="w-4 h-4" />
+                Payments
               </TabsTrigger>
             </TabsList>
 
@@ -498,6 +506,74 @@ const Profile = () => {
                       Delete Account
                     </Button>
                   </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="premium" className="space-y-6">
+              <Card className="bg-gradient-to-r from-indigo-600/20 to-purple-600/20 border-indigo-500/40">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Crown className="w-6 h-6 text-yellow-400" />
+                    Premium Subscription
+                  </CardTitle>
+                  <CardDescription>
+                    Unlock exclusive features and priority access to concerts
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                      <span>Priority concert ticket access</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                      <span>Exclusive backstage content</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                      <span>VIP community access</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                      <span>Advanced event planning tools</span>
+                    </div>
+                  </div>
+                  <Button className="w-full bg-gradient-primary text-white">
+                    Upgrade to Premium - $9.99/month
+                  </Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="payments" className="space-y-6">
+              <Card className="bg-card border-concert-border">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <CreditCard className="w-5 h-5" />
+                    Payment Methods
+                  </CardTitle>
+                  <CardDescription>Manage your saved payment methods</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between p-4 border border-concert-border rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
+                          <CreditCard className="w-4 h-4 text-white" />
+                        </div>
+                        <div>
+                          <p className="font-medium">•••• •••• •••• 4242</p>
+                          <p className="text-sm text-muted-foreground">Expires 12/26</p>
+                        </div>
+                      </div>
+                      <Button variant="outline" size="sm">Remove</Button>
+                    </div>
+                  </div>
+                  <Button className="w-full bg-gradient-primary text-white">
+                    Add New Payment Method
+                  </Button>
                 </CardContent>
               </Card>
             </TabsContent>

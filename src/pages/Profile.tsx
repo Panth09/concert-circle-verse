@@ -36,8 +36,17 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState("profile");
   const [userName, setUserName] = useState('USERNAME');
   const [userPhone, setUserPhone] = useState('+91 1234567899');
+  const [userBio, setUserBio] = useState('Music enthusiast who loves discovering new artists and attending live concerts.');
   const [darkMode, setDarkMode] = useState(true);
   const [showEditProfile, setShowEditProfile] = useState(false);
+  const [emailNotifications, setEmailNotifications] = useState(true);
+  const [pushNotifications, setPushNotifications] = useState(true);
+  const [marketingEmails, setMarketingEmails] = useState(false);
+  const [twoFactorAuth, setTwoFactorAuth] = useState(false);
+  const [paymentMethods, setPaymentMethods] = useState([
+    { id: 1, type: 'Visa', last4: '4242', expiry: '12/26' },
+    { id: 2, type: 'Mastercard', last4: '8888', expiry: '08/27' }
+  ]);
 
   const userStats = [
     { label: "Events Attended", value: 42 },
@@ -194,6 +203,8 @@ const Profile = () => {
                     <Label htmlFor="bio">Bio</Label>
                     <Textarea
                       id="bio"
+                      value={userBio}
+                      onChange={(e) => setUserBio(e.target.value)}
                       placeholder="Tell us about your music taste..."
                       rows={4}
                       className="bg-card border-concert-border"
@@ -278,7 +289,7 @@ const Profile = () => {
                       <div className="flex-1">
                         <h2 className="text-xl font-bold">{userName}</h2>
                         <p className="text-muted-foreground">{userPhone}</p>
-                        <p className="text-sm text-muted-foreground">Music Enthusiast • 12 concerts attended</p>
+                        <p className="text-sm text-muted-foreground">{userBio}</p>
                       </div>
                       <Button 
                         variant="outline" 
@@ -414,12 +425,22 @@ const Profile = () => {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="language">Language</Label>
-                    <Input id="language" defaultValue="English" className="bg-card border-concert-border" />
+                    <select className="w-full p-2 bg-card border border-concert-border rounded-lg">
+                      <option>English</option>
+                      <option>Spanish</option>
+                      <option>French</option>
+                      <option>German</option>
+                    </select>
                   </div>
                   
                   <div className="space-y-2">
                     <Label htmlFor="timezone">Timezone</Label>
-                    <Input id="timezone" defaultValue="UTC-5 (EST)" className="bg-card border-concert-border" />
+                    <select className="w-full p-2 bg-card border border-concert-border rounded-lg">
+                      <option>UTC-5 (EST)</option>
+                      <option>UTC-8 (PST)</option>
+                      <option>UTC+0 (GMT)</option>
+                      <option>UTC+1 (CET)</option>
+                    </select>
                   </div>
                   
                   <Separator />
@@ -429,7 +450,10 @@ const Profile = () => {
                       <Label>Two-Factor Authentication</Label>
                       <p className="text-sm text-muted-foreground">Add an extra layer of security</p>
                     </div>
-                    <Switch />
+                    <Switch 
+                      checked={twoFactorAuth} 
+                      onCheckedChange={setTwoFactorAuth}
+                    />
                   </div>
                   
                   <div className="flex items-center justify-between">
@@ -437,7 +461,10 @@ const Profile = () => {
                       <Label>Email Notifications</Label>
                       <p className="text-sm text-muted-foreground">Receive updates via email</p>
                     </div>
-                    <Switch defaultChecked />
+                    <Switch 
+                      checked={emailNotifications} 
+                      onCheckedChange={setEmailNotifications}
+                    />
                   </div>
                   
                   <Button className="bg-gradient-primary text-white">Save Settings</Button>
@@ -453,20 +480,53 @@ const Profile = () => {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {[
-                    { title: "New Events", desc: "Get notified about new events in your area" },
-                    { title: "Community Updates", desc: "Updates from communities you've joined" },
-                    { title: "Friend Activity", desc: "When friends share new content" },
-                    { title: "Event Reminders", desc: "Reminders for upcoming events" },
-                    { title: "Security Alerts", desc: "Important security notifications" }
-                  ].map((notification) => (
-                    <div key={notification.title} className="flex items-center justify-between">
+                    { 
+                      title: "New Events", 
+                      desc: "Get notified about new events in your area",
+                      checked: pushNotifications,
+                      onChange: setPushNotifications
+                    },
+                    { 
+                      title: "Community Updates", 
+                      desc: "Updates from communities you've joined",
+                      checked: emailNotifications,
+                      onChange: setEmailNotifications
+                    },
+                    { 
+                      title: "Friend Activity", 
+                      desc: "When friends share new content",
+                      checked: true,
+                      onChange: () => {}
+                    },
+                    { 
+                      title: "Marketing Emails", 
+                      desc: "Promotional content and special offers",
+                      checked: marketingEmails,
+                      onChange: setMarketingEmails
+                    },
+                  ].map((item, index) => (
+                    <div key={index} className="flex items-center justify-between">
                       <div>
-                        <Label>{notification.title}</Label>
-                        <p className="text-sm text-muted-foreground">{notification.desc}</p>
+                        <Label>{item.title}</Label>
+                        <p className="text-sm text-muted-foreground">{item.desc}</p>
                       </div>
-                      <Switch defaultChecked />
+                      <Switch 
+                        checked={item.checked} 
+                        onCheckedChange={item.onChange}
+                      />
                     </div>
                   ))}
+                  
+                  <Separator />
+                  
+                  <div className="space-y-2">
+                    <Label>Notification Frequency</Label>
+                    <select className="w-full p-2 bg-card border border-concert-border rounded-lg">
+                      <option>Real-time</option>
+                      <option>Daily digest</option>
+                      <option>Weekly summary</option>
+                    </select>
+                  </div>
                   
                   <Button className="bg-gradient-primary text-white">Save Preferences</Button>
                 </CardContent>
@@ -558,20 +618,41 @@ const Profile = () => {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between p-4 border border-concert-border rounded-lg">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-                          <CreditCard className="w-4 h-4 text-white" />
+                    {paymentMethods.map((method) => (
+                      <div key={method.id} className="flex items-center justify-between p-4 border border-concert-border rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <div className={`w-8 h-8 rounded flex items-center justify-center ${
+                            method.type === 'Visa' ? 'bg-blue-600' : 'bg-orange-600'
+                          }`}>
+                            <CreditCard className="w-4 h-4 text-white" />
+                          </div>
+                          <div>
+                            <p className="font-medium">•••• •••• •••• {method.last4}</p>
+                            <p className="text-sm text-muted-foreground">Expires {method.expiry}</p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="font-medium">•••• •••• •••• 4242</p>
-                          <p className="text-sm text-muted-foreground">Expires 12/26</p>
-                        </div>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => setPaymentMethods(prev => prev.filter(p => p.id !== method.id))}
+                        >
+                          Remove
+                        </Button>
                       </div>
-                      <Button variant="outline" size="sm">Remove</Button>
-                    </div>
+                    ))}
                   </div>
-                  <Button className="w-full bg-gradient-primary text-white">
+                  <Button 
+                    className="w-full bg-gradient-primary text-white"
+                    onClick={() => {
+                      const newMethod = {
+                        id: Date.now(),
+                        type: 'Visa',
+                        last4: '1234',
+                        expiry: '04/28'
+                      };
+                      setPaymentMethods(prev => [...prev, newMethod]);
+                    }}
+                  >
                     Add New Payment Method
                   </Button>
                 </CardContent>

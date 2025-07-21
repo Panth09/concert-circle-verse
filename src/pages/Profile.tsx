@@ -135,7 +135,7 @@ const Profile = () => {
       <div className="min-h-screen bg-background">
         <Navigation />
         
-        <div className="md:ml-64 p-6">
+        <div className="p-6">
           <div className="container mx-auto max-w-2xl">
             <div className="flex items-center justify-between mb-8">
               <Button 
@@ -219,7 +219,7 @@ const Profile = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      <div className="md:ml-64 p-6">
+      <div className="p-6">
         <div className="container mx-auto">
           <div className="mb-8">
             <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-2">

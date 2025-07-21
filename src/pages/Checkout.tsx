@@ -50,7 +50,7 @@ const Checkout = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      <div className="md:ml-64 pb-20 md:pb-0">
+      <div className="pb-20 md:pb-0">
         <div className="container mx-auto px-4 py-8">
           <div className="flex items-center gap-4 mb-8">
             <Button variant="ghost" asChild>
